@@ -6,3 +6,18 @@ class Expense:
 
     def __str__(self) -> str:
         return f"{self.category} - {self.title}: ${self.amount:.2f}"
+    
+    def to_dict(self) -> dict:
+        return {
+            "category": self.category,
+            "title": self.title,
+            "amount": self.amount
+        }
+    
+    @classmethod
+    def from_dict(cls, data: dict) -> 'Expense':
+        return cls(
+            data["category"],
+            data["title"],
+            data["amount"]
+        )
