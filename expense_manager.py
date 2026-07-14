@@ -11,10 +11,5 @@ class ExpenseManager:
         if expense in self.expenses:
             self.expenses.remove(expense)
 
-    def print_expenses(self) -> None:
-        if not self.expenses:
-            print("\nNo expenses recorded.")
-            return
-        print("\nExpenses:")
-        for expense in self.expenses:
-            print(expense)
+    def return_expenses(self):
+        return self.expenses
