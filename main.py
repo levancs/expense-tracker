@@ -7,8 +7,34 @@ print("\nWelcome To Expense Tracker")
 manager = ExpenseManager()
 load_expenses_from_file(manager)
 
-def is_blank(value: str) -> bool:
-    return not value.strip()
+def get_valid_input(prompt: str) -> str:
+    while True:
+        value = input(prompt)
+        if value.lower() == 'b':
+            return None
+        if not value.strip():
+            print("\nInput cannot be blank.")
+            return None
+        else:
+            return value.strip()
+        
+def get_valid_float_input(prompt: str) -> float:
+    while True:
+        value = input(prompt)
+        if value.lower() == 'b':
+            return None
+        if not value.strip():
+            print("\nInput cannot be blank.")
+            return None
+        try:
+            float_value = float(value)
+            if float_value < 0:
+                print("\nInput cannot be negative.")
+                return None
+            return float_value
+        except ValueError:
+            print("\nPlease enter a valid number.")
+            return None
 
 def print_menu() -> None:
     print("\nPlease select an option:")
@@ -23,55 +49,32 @@ def print_menu() -> None:
 def menu():
     while True:
         print_menu()
-        choice = input("\nEnter your choice: ")
+        choice = get_valid_input("\nEnter your choice: ")
 
         if choice not in ["1", "2", "3", "4", "5", "6"]:
             print("\nInvalid choice. Please try again.")
             continue
 
         if choice == "1":
-            category = input("\nEnter expense category: ")
-            if category.lower() == 'b':
+            category = get_valid_input("\nEnter expense category: ")
+            if category is None:
                 continue
-            if is_blank(category):
-                print("\nInput cannot be blank.")
+            title = get_valid_input("Enter expense title: ")
+            if title is None:
                 continue
-            title = input("Enter expense title: ")
-            if title.lower() == 'b':
-                continue
-            if is_blank(title):
-                print("\nInput cannot be blank.")
-                continue
-            amount = input("Enter expense amount: ")
-            if amount.lower() == 'b':
-                continue
-            if is_blank(amount):
-                print("\nInput cannot be blank.")
-                continue
-            try:
-                amount = float(amount)
-                if amount < 0:
-                    print("\nInput cannot be negative.")
-                    continue
-            except ValueError:
-                print("\nPlease enter a valid number")
+            amount = get_valid_float_input("Enter expense amount: ")
+            if amount is None:
                 continue
             expense = Expense(category, title, amount)
             manager.add_expense(expense)
             print(f"\nExpense {category} - '{title}' of amount {amount} added successfully.")
 
         elif choice == "2":
-            category = input("\nEnter expense category: ")
-            if category.lower() == 'b':
+            category = get_valid_input("\nEnter expense category: ")
+            if category is None:
                 continue
-            if is_blank(category):
-                print("\nInput cannot be blank.")
-                continue
-            title = input("Enter expense title: ")
-            if title.lower() == 'b':
-                continue
-            if is_blank(title):
-                print("\nInput cannot be blank.")
+            title = get_valid_input("Enter expense title: ")
+            if title is None:
                 continue
             expense_to_remove = None
             for expense in manager.expenses:
@@ -94,31 +97,14 @@ def menu():
                     print(expense)
 
         elif choice == "4":
-            category = input("\nEnter expense category: ")
-            if category.lower() == 'b':
+            category = get_valid_input("\nEnter expense category: ")
+            if category is None:
                 continue
-            if is_blank(category):
-                print("\nInput cannot be blank.")
+            title = get_valid_input("Enter expense title: ")
+            if title is None:
                 continue
-            title = input("Enter expense title: ")
-            if title.lower() == 'b':
-                continue
-            if is_blank(title):
-                print("\nInput cannot be blank.")
-                continue
-            amount = input("Enter expense amount: ")
-            if amount.lower() == 'b':
-                continue
-            if is_blank(amount):
-                print("\nInput cannot be blank.")
-                continue
-            try:
-                amount = float(amount)
-                if amount < 0:
-                    print("\nInput cannot be negative.")
-                    continue
-            except ValueError:
-                print("\nPlease enter a valid number")
+            amount = get_valid_float_input("Enter expense amount: ")
+            if amount is None:
                 continue
             old_expense = None
             for expense in manager.expenses:
@@ -133,11 +119,8 @@ def menu():
                 print(f"\nNo expense found with category '{category}' and title '{title}'.")
 
         elif choice == "5":
-            category = input("\nEnter expense category to view: ")
-            if category.lower() == 'b':
-                continue
-            if is_blank(category):
-                print("\nInput cannot be blank.")
+            category = get_valid_input("\nEnter expense category to view: ")
+            if category is None:
                 continue
             print(f"\nExpenses in category '{category}':")
             found = False
