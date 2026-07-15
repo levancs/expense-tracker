@@ -15,7 +15,9 @@ def print_menu() -> None:
     print("1. Add expense")
     print("2. Remove expense")
     print("3. View expenses")  
-    print("4. Quit and save expenses to file")
+    print("4. Edit expense")
+    print("5. View expenses by category")
+    print("6. Quit and save expenses to file")
     print("Enter 'b' anytime to go back to the main menu.")
 
 def menu():
@@ -23,7 +25,7 @@ def menu():
         print_menu()
         choice = input("\nEnter your choice: ")
 
-        if choice not in ["1", "2", "3", "4"]:
+        if choice not in ["1", "2", "3", "4", "5", "6"]:
             print("\nInvalid choice. Please try again.")
             continue
 
@@ -92,6 +94,61 @@ def menu():
                     print(expense)
 
         elif choice == "4":
+            category = input("\nEnter expense category: ")
+            if category.lower() == 'b':
+                continue
+            if is_blank(category):
+                print("\nInput cannot be blank.")
+                continue
+            title = input("Enter expense title: ")
+            if title.lower() == 'b':
+                continue
+            if is_blank(title):
+                print("\nInput cannot be blank.")
+                continue
+            amount = input("Enter expense amount: ")
+            if amount.lower() == 'b':
+                continue
+            if is_blank(amount):
+                print("\nInput cannot be blank.")
+                continue
+            try:
+                amount = float(amount)
+                if amount < 0:
+                    print("\nInput cannot be negative.")
+                    continue
+            except ValueError:
+                print("\nPlease enter a valid number")
+                continue
+            old_expense = None
+            for expense in manager.expenses:
+                if expense.category == category and expense.title == title and expense.amount == amount:
+                    old_expense = expense
+                    break
+            if old_expense:
+                new_expense = Expense(category, title, amount)
+                manager.edit_expense(old_expense, new_expense)
+                print(f"\nExpense {category} - '{title}' edited successfully.")
+            else:
+                print(f"\nNo expense found with category '{category}' and title '{title}'.")
+
+        elif choice == "5":
+            category = input("\nEnter expense category to view: ")
+            if category.lower() == 'b':
+                continue
+            if is_blank(category):
+                print("\nInput cannot be blank.")
+                continue
+            print(f"\nExpenses in category '{category}':")
+            found = False
+            for expense in manager.expenses:
+                if expense.category == category:
+                    print(expense)
+                    found = True
+            if not found:
+                print(f"\nNo expenses found in category '{category}'.")
+
+        elif choice == "6":
             save_expenses_to_file(manager)
             print("\nExpenses saved to file. Exiting the program.\n")
             break

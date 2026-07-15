@@ -13,3 +13,8 @@ class ExpenseManager:
 
     def return_expenses(self):
         return self.expenses
+    
+    def edit_expense(self, old_expense: Expense, new_expense: Expense) -> None:
+        if old_expense in self.expenses:
+            index = self.expenses.index(old_expense)
+            self.expenses[index] = new_expense
