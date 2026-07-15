@@ -8,6 +8,7 @@ A command-line expense tracker written in Python
 - Edit expenses
 - View all expenses
 - View expenses by category
+- View expense totals by category
 - JSON save/load system
 
 ## Technologies Used

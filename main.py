@@ -43,7 +43,8 @@ def print_menu() -> None:
     print("3. Edit expense")  
     print("4. View expenses")
     print("5. View expenses by category")
-    print("6. Quit and save expenses to file")
+    print("6. View expense totals by category")
+    print("7. Quit and save expenses to file")
     print("Enter 'b' anytime to go back to the main menu.")
 
 def menu():
@@ -51,7 +52,7 @@ def menu():
         print_menu()
         choice = get_valid_input("\nEnter your choice: ")
 
-        if choice not in ["1", "2", "3", "4", "5", "6"]:
+        if choice not in ["1", "2", "3", "4", "5", "6", "7"]:
             print("\nInvalid choice. Please try again.")
             continue
 
@@ -132,6 +133,20 @@ def menu():
                 print(f"\nNo expenses found in category '{category}'.")
 
         elif choice == "6":
+            totals = {}
+            for expense in manager.expenses:
+                if expense.category in totals:
+                    totals[expense.category] += expense.amount
+                else:
+                    totals[expense.category] = expense.amount
+            if not totals:
+                print("\nNo expenses recorded.")
+            else:
+                print("\nExpense totals by category:")
+                for category, total in totals.items():
+                    print(f"{category}: ${total:.2f}")
+
+        elif choice == "7":
             save_expenses_to_file(manager)
             print("\nExpenses saved to file. Exiting the program.\n")
             break
