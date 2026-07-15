@@ -40,8 +40,8 @@ def print_menu() -> None:
     print("\nPlease select an option:")
     print("1. Add expense")
     print("2. Remove expense")
-    print("3. View expenses")  
-    print("4. Edit expense")
+    print("3. Edit expense")  
+    print("4. View expenses")
     print("5. View expenses by category")
     print("6. Quit and save expenses to file")
     print("Enter 'b' anytime to go back to the main menu.")
@@ -88,15 +88,6 @@ def menu():
                 print(f"\nNo expense found with category '{category}' and title '{title}'.")
 
         elif choice == "3":
-            expenses = manager.return_expenses()
-            if not expenses:
-                print("\nNo expenses recorded.")
-            else:
-                print("\nExpenses:")
-                for expense in expenses:
-                    print(expense)
-
-        elif choice == "4":
             category = get_valid_input("\nEnter expense category: ")
             if category is None:
                 continue
@@ -117,6 +108,15 @@ def menu():
                 print(f"\nExpense {category} - '{title}' edited successfully.")
             else:
                 print(f"\nNo expense found with category '{category}' and title '{title}'.")
+
+        elif choice == "4":
+                expenses = manager.return_expenses()
+                if not expenses:
+                    print("\nNo expenses recorded.")
+                else:
+                    print("\nExpenses:")
+                    for expense in expenses:
+                        print(expense)
 
         elif choice == "5":
             category = get_valid_input("\nEnter expense category to view: ")
